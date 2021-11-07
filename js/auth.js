@@ -7,6 +7,23 @@ const logInForm = document.getElementById('logInForm');
 const inputLogin = document.getElementById('login');
 const inputPassword = document.getElementById('password');
 
+const TestLogin = (login) => {
+    if (/^[a-zA-Z1-9]+$/.test(login) === false) {
+        alert('В логине должны быть только латинские буквы');
+        return false;
+    }
+    if (login.length < 4 || login.length > 20) {
+        alert('В логине должны быть символы от 4 до 20');
+        return false;
+    }
+    if (parseInt(login.substr(0, 1))) {
+        alert('Логин должен начинаться с буквы');
+        return false;
+    }
+    return true;
+}
+
+
 const login = (user) => {
     buttonAuth.style.display = 'none';
     buttonOut.style.display = 'flex';
@@ -51,8 +68,10 @@ logInForm.addEventListener('submit', (event) => {
     }
     let str = user.login.trim();
     if (str != '') {
-        localStorage.setItem('user', JSON.stringify(user));
-        login(user);
+        if (TestLogin(str)) {
+            localStorage.setItem('user', JSON.stringify(user));
+            login(user);
+        }
     } else {
         alert('Введите логин!');
     }
